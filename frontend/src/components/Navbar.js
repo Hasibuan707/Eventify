@@ -12,6 +12,20 @@ const Navbar = () => {
         >
           🎫 Eventify
         </Link>
+        <Link
+          style={{
+            textDecoration: "none",
+            backgroundColor: "navy",
+            borderRadius: "10px",
+            fontSize: "15px",
+            padding: "5px",
+            color: "white",
+            fontWeight: "bold",
+          }}
+          to="/signin"
+        >
+          Sign In
+        </Link>
       </div>
     </nav>
   );

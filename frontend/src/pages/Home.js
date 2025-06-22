@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetchEvents } from "../services/api";
 import EventCard from "../components/EventCard";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const Home = () => {
   const [events, setEvents] = useState([]);
@@ -55,6 +56,7 @@ const Home = () => {
           </button>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
