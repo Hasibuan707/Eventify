@@ -1,5 +1,6 @@
 const pool = require("../config/db");
 
+// GET semua event (opsional pakai search query)
 exports.getEvents = async (req, res) => {
   try {
     const { search } = req.query;
@@ -15,6 +16,7 @@ exports.getEvents = async (req, res) => {
   }
 };
 
+// GET event by ID
 exports.getEventById = async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM events WHERE id = $1", [
@@ -28,6 +30,7 @@ exports.getEventById = async (req, res) => {
   }
 };
 
+// GET event by organizer ID (khusus untuk organizer)
 exports.getEventsByOrganizer = async (req, res) => {
   try {
     const result = await pool.query(
@@ -40,6 +43,7 @@ exports.getEventsByOrganizer = async (req, res) => {
   }
 };
 
+// POST create new event
 exports.createEvent = async (req, res) => {
   const {
     title,
@@ -79,6 +83,7 @@ exports.createEvent = async (req, res) => {
   }
 };
 
+// POST buy ticket
 exports.buyTicket = async (req, res) => {
   const eventId = req.params.id;
   const userId = req.user.id;
@@ -110,6 +115,7 @@ exports.buyTicket = async (req, res) => {
   }
 };
 
+// POST add review
 exports.addReview = async (req, res) => {
   const eventId = req.params.id;
   const userId = req.user.id;
@@ -123,5 +129,26 @@ exports.addReview = async (req, res) => {
     res.json({ message: "Review submitted" });
   } catch (err) {
     res.status(500).json({ error: "Failed to submit review" });
+  }
+};
+
+// GET my events khusus role 'organizer' (opsional)
+exports.getMyEvents = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const role = req.user.role;
+
+    if (role !== "organizer") {
+      return res.status(403).json({ message: "Access denied" });
+    }
+
+    const result = await pool.query(
+      "SELECT * FROM events WHERE organizer_id = $1 ORDER BY date DESC",
+      [userId]
+    );
+
+    res.json(result.rows);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching events" });
   }
 };

@@ -16,7 +16,16 @@ const EventCard = ({ event }) => (
         <p className="card-text">
           <strong>{event.is_paid ? `IDR ${event.price}` : "Free"}</strong>
         </p>
-        <Link to={`/events/${event.id}`} className="btn btn-primary">
+        <Link
+          to={`/events/${event.id}`}
+          style={{
+            backgroundColor: "navy",
+            color: "white",
+            fontFamily: "revert",
+            fontWeight: "bold",
+          }}
+          className="btn"
+        >
           View Details
         </Link>
       </div>
